@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
+import com.shatteredpixel.shatteredpixeldungeon.EasyMode;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
@@ -232,7 +233,10 @@ public abstract class Level implements Bundlable {
 				//for 0 levelgen impact, we need to do something like give the player all SOU, but nerf them
 				//or give a random scroll (from a separate RNG) instead of every 2nd SOU
 				if (!Dungeon.isChallenged(Challenges.NO_SCROLLS) || Dungeon.LimitedDrops.UPGRADE_SCROLLS.count%2 != 0){
-					addItemToSpawn(new ScrollOfUpgrade());
+					int amount = Dungeon.isEasyFeatureEnabled(EasyMode.DOUBLE_UPGRADE_SCROLLS) ? 2 : 1;
+					for (int i = 0; i < amount; i++) {
+						addItemToSpawn(new ScrollOfUpgrade());
+					}
 				}
 			}
 			if (Dungeon.asNeeded()) {

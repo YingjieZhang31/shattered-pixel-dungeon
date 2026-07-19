@@ -180,6 +180,7 @@ public class Dungeon {
 	}
 
 	public static int challenges;
+	public static int easyFeatures;
 	public static float mobsToChampion;
 
 	public static Hero hero;
@@ -234,6 +235,7 @@ public class Dungeon {
 
 		initialVersion = version = Game.versionCode;
 		challenges = SPDSettings.challenges();
+		easyFeatures = SPDSettings.easyFeatures();
 		mobsToChampion = 1;
 
 		Actor.clear();
@@ -288,6 +290,10 @@ public class Dungeon {
 
 	public static boolean isChallenged( int mask ) {
 		return (challenges & mask) != 0;
+	}
+
+	public static boolean isEasyFeatureEnabled( int mask ) {
+		return (easyFeatures & mask) != 0;
 	}
 
 	public static boolean levelHasBeenGenerated(int depth, int branch){
@@ -606,6 +612,7 @@ public class Dungeon {
 	private static final String DAILY_REPLAY= "daily_replay";
 	private static final String LAST_PLAYED = "last_played";
 	private static final String CHALLENGES	= "challenges";
+	private static final String EASY_FEATURES = "easy_features";
 	private static final String MOBS_TO_CHAMPION	= "mobs_to_champion";
 	private static final String HERO		= "hero";
 	private static final String DEPTH		= "depth";
@@ -633,6 +640,7 @@ public class Dungeon {
 			bundle.put( DAILY_REPLAY, dailyReplay );
 			bundle.put( LAST_PLAYED, lastPlayed = Game.realTime);
 			bundle.put( CHALLENGES, challenges );
+			bundle.put( EASY_FEATURES, easyFeatures );
 			bundle.put( MOBS_TO_CHAMPION, mobsToChampion );
 			bundle.put( HERO, hero );
 			bundle.put( DEPTH, depth );
@@ -740,6 +748,7 @@ public class Dungeon {
 		Toolbar.swappedQuickslots = false;
 
 		Dungeon.challenges = bundle.getInt( CHALLENGES );
+		Dungeon.easyFeatures = bundle.getInt( EASY_FEATURES );
 		Dungeon.mobsToChampion = bundle.getFloat( MOBS_TO_CHAMPION );
 		
 		Dungeon.level = null;
@@ -859,6 +868,7 @@ public class Dungeon {
 		info.depth = bundle.getInt( DEPTH );
 		info.version = bundle.getInt( VERSION );
 		info.challenges = bundle.getInt( CHALLENGES );
+		info.easyFeatures = bundle.getInt( EASY_FEATURES );
 		info.seed = bundle.getLong( SEED );
 		info.customSeed = bundle.getString( CUSTOM_SEED );
 		info.daily = bundle.getBoolean( DAILY );
