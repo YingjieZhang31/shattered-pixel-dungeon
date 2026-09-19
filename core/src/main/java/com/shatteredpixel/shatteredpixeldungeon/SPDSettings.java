@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon;
 
+import com.shatteredpixel.shatteredpixeldungeon.EasyMode;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -220,6 +221,7 @@ public class SPDSettings extends GameSettings {
 	
 	public static final String KEY_LAST_CLASS	= "last_class";
 	public static final String KEY_CHALLENGES	= "challenges";
+		public static final String KEY_EASYMODE   = "easymode";
 	public static final String KEY_CUSTOM_SEED	= "custom_seed";
 	public static final String KEY_LAST_DAILY	= "last_daily";
 	public static final String KEY_INTRO		= "intro";
@@ -250,6 +252,14 @@ public class SPDSettings extends GameSettings {
 	
 	public static int challenges() {
 		return getInt( KEY_CHALLENGES, 0, 0, Challenges.MAX_VALUE );
+	}
+
+	public static void easyFeatures( int value ) {
+		put( KEY_EASYMODE, value );
+	}
+
+	public static int easyFeatures() {
+		return getInt( KEY_EASYMODE, 0, 0, EasyMode.MAX_VALUE );
 	}
 
 	public static void customSeed( String value ){

@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
+import com.shatteredpixel.shatteredpixeldungeon.EasyMode;
 import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
@@ -44,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndChallenges;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndEasyMode;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndHeroInfo;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndKeyBindings;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
@@ -807,6 +809,8 @@ public class HeroSelectScene extends PixelScene {
 						return;
 					}
 
+					SPDSettings.easyFeatures(0);
+
 					ShatteredPixelDungeon.scene().addToFront(new WndChallenges(SPDSettings.challenges(), true) {
 						public void onBackPressed() {
 							super.onBackPressed();
@@ -820,6 +824,27 @@ public class HeroSelectScene extends PixelScene {
 			challengeButton.icon(Icons.get(SPDSettings.challenges() > 0 ? Icons.CHALLENGE_COLOR : Icons.CHALLENGE_GREY));
 			add(challengeButton);
 			buttons.add(challengeButton);
+
+			StyledButton easyModeButton = new StyledButton(Chrome.Type.BLANK, Messages.get(WndEasyMode.class, "title"), 6){
+				@Override
+				protected void onClick() {
+					// mutual exclusion: clear challenges when opening easy mode
+					SPDSettings.challenges(0);
+					challengeButton.icon(Icons.get(Icons.CHALLENGE_GREY));
+					updateOptionsColor();
+
+					ShatteredPixelDungeon.scene().addToFront(new WndEasyMode(SPDSettings.easyFeatures(), true) {
+						public void onBackPressed() {
+							super.onBackPressed();
+							icon(Icons.get(SPDSettings.easyFeatures() > 0 ? Icons.CHALLENGE_COLOR : Icons.CHALLENGE_GREY));
+						}
+					});
+				}
+			};
+			easyModeButton.leftJustify = true;
+			easyModeButton.icon(Icons.get(SPDSettings.easyFeatures() > 0 ? Icons.CHALLENGE_COLOR : Icons.CHALLENGE_GREY));
+			add(easyModeButton);
+			buttons.add(easyModeButton);
 
 			int unlockedCount = 0;
 			for (HeroClass cls : HeroClass.values()){
